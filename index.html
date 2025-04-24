@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mercadinho - Sistema de Gerenciamento</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Sistema Mercadinho</h1>
+        
+        <div class="abas">
+            <button class="tablink" onclick="abrirAba(event, 'produtos')">Produtos</button>
+            <button class="tablink" onclick="abrirAba(event, 'clientes')">Clientes</button>
+            <button class="tablink" onclick="abrirAba(event, 'vendas')">Vendas</button>
+            <button class="tablink" onclick="abrirAba(event, 'categorias')">Categorias</button>
+        </div>
+        
+        <div id="produtos" class="tabcontent">
+            <h2>Gerenciamento de Produtos</h2>
+            
+            <div class="form-container">
+                <h3>Cadastrar Novo Produto</h3>
+                <form id="formProduto">
+                    <input type="hidden" id="produtoId">
+                    <div class="form-group">
+                        <label for="nome">Nome:</label>
+                        <input type="text" id="nome" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="descricao">Descrição:</label>
+                        <textarea id="descricao"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="preco">Preço:</label>
+                        <input type="number" id="preco" step="0.01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="quantidade">Quantidade em Estoque:</label>
+                        <input type="number" id="quantidade" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="categoria">Categoria:</label>
+                        <select id="categoria" required>
+                            <option value="">Selecione...</option>
+                        </select>
+                    </div>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="limparFormProduto()">Limpar</button>
+                </form>
+            </div>
+            
+            <div class="lista-container">
+                <h3>Lista de Produtos</h3>
+                <table id="tabelaProdutos">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Preço</th>
+                            <th>Estoque</th>
+                            <th>Categoria</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="clientes" class="tabcontent">
+            <h2>Gerenciamento de Clientes</h2>
+            
+            <div class="form-container">
+                <h3>Cadastrar Novo Cliente</h3>
+                <form id="formCliente">
+                    <input type="hidden" id="clienteId">
+                    <div class="form-group">
+                        <label for="nomeCliente">Nome:</label>
+                        <input type="text" id="nomeCliente" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="telefone">Telefone:</label>
+                        <input type="text" id="telefone">
+                    </div>
+                    <div class="form-group">
+                        <label for="cpf">CPF:</label>
+                        <input type="text" id="cpf">
+                    </div>
+                    <div class="form-group">
+                        <label for="email">E-mail:</label>
+                        <input type="email" id="email">
+                    </div>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="limparFormCliente()">Limpar</button>
+                </form>
+            </div>
+            
+            <div class="lista-container">
+                <h3>Lista de Clientes</h3>
+                <table id="tabelaClientes">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Telefone</th>
+                            <th>CPF</th>
+                            <th>E-mail</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="vendas" class="tabcontent">
+            <h2>Histórico de Vendas</h2>
+            
+            <div class="lista-container">
+                <table id="tabelaVendas">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Data</th>
+                            <th>Cliente</th>
+                            <th>Valor Total</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+        
+        <div id="categorias" class="tabcontent">
+            <h2>Gerenciamento de Categorias</h2>
+            
+            <div class="form-container">
+                <h3>Cadastrar Nova Categoria</h3>
+                <form id="formCategoria">
+                    <input type="hidden" id="categoriaId">
+                    <div class="form-group">
+                        <label for="nomeCategoria">Nome:</label>
+                        <input type="text" id="nomeCategoria" required>
+                    </div>
+                    <button type="submit">Salvar</button>
+                    <button type="button" onclick="limparFormCategoria()">Limpar</button>
+                </form>
+            </div>
+            
+            <div class="lista-container">
+                <h3>Lista de Categorias</h3>
+                <table id="tabelaCategorias">
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nome</th>
+                            <th>Ações</th>
+                        </tr>
+                    </thead>
+                    <tbody></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/categoria.js"></script>
+    <script src="js/vendas.js"></script>
+    <script src="js/clientes.js"></script>
+    <script src="js/produtos.js"></script>
+    <script>
+        function abrirAba(evt, abaNome) {
+            const tabcontent = document.getElementsByClassName("tabcontent");
+            for (let i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            
+            const tablinks = document.getElementsByClassName("tablink");
+            for (let i = 0; i < tablinks.length; i++) {
+                tablinks[i].className = tablinks[i].className.replace(" active", "");
+            }
+            
+            document.getElementById(abaNome).style.display = "block";
+            evt.currentTarget.className += " active";
+            
+            if (abaNome === 'produtos') {
+                carregarProdutos();
+                carregarCategoriasSelect();
+            } else if (abaNome === 'clientes') {
+                carregarClientes();
+            } else if (abaNome === 'vendas') {
+                carregarVendas();
+            } else if (abaNome === 'categorias') {
+                carregarCategorias();
+            }
+        }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            document.querySelector(".tablink").click();
+        });
+       
+    </script>
+</body>
+</html>
